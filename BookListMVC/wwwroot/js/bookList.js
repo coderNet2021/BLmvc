@@ -1,5 +1,5 @@
 ﻿var dataTable;
-
+var routeURL = location.protocol + "//" + location.host;
 $(document).ready(function () {
     loadDataTable();
 });
@@ -7,7 +7,7 @@ $(document).ready(function () {
 function loadDataTable() {
     dataTable = $('#DT_load').DataTable({
         "ajax": {
-            "url": "/books/getall/",
+            "url": routeURL + "/api/Books/getAll",
             "type": "GET",
             "datatype": "json"
         },
@@ -18,13 +18,14 @@ function loadDataTable() {
             {
                 "data": "id",
                 "render": function (data) {
+                   
                     return `<div class="text-center">
                         <a href="/Books/Upsert?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
                             Edit
                         </a>
                         &nbsp;
                         <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
-                            onclick=Delete('/books/Delete?id='+${data})>
+                            onclick=Delete('/api/books/delete?id='+${data})>
                             Delete
                         </a>
                         </div>`;
@@ -49,7 +50,7 @@ function Delete(url) {
         if (willDelete) {
             $.ajax({
                 type: "DELETE",
-                url: url,
+                url: routeURL + url,
                 success: function (data) {
                     if (data.success) {
                         toastr.success(data.message);
