@@ -23,17 +23,17 @@ namespace BookList.DataAccess.Repository
             this.dbSet = _db.Set<T>();
         }
 
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            dbSet.Add(entity);
+           await  dbSet.AddAsync(entity);
         }
 
-        public T Find(int id)
+        public async Task<T> Find(int id)
         {
-            return dbSet.Find(id);
+            return await dbSet.FindAsync(id);
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null, bool isTracking = true)
+        public async Task<T> FirstOrDefault(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null, bool isTracking = true)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
@@ -48,7 +48,7 @@ namespace BookList.DataAccess.Repository
             {
                 query = query.AsNoTracking();
             }
-            return query.FirstOrDefault();
+            return await query.FirstOrDefaultAsync();
         }
 
         public async  Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null, bool isTracking = true)
@@ -83,9 +83,9 @@ namespace BookList.DataAccess.Repository
             dbSet.RemoveRange(entity);
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _db.SaveChanges();
+           await  _db.SaveChangesAsync();
         }
     }
 }

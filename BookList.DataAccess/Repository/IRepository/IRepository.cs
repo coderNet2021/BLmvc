@@ -10,7 +10,7 @@ namespace BookList.DataAccess.Repository.IRepository
 {
     public interface IRepository<T> where T : class
     {
-        T Find(int id);
+        Task<T> Find(int id);
 
         Task<IEnumerable<T>> FindAll(
             Expression<Func<T, bool>> filter = null,
@@ -19,17 +19,17 @@ namespace BookList.DataAccess.Repository.IRepository
             bool isTracking = true
             );
 
-        T FirstOrDefault(
+        Task<T> FirstOrDefault(
             Expression<Func<T, bool>> filter = null,
              Func<IQueryable<T>, IIncludableQueryable<T, object>> includes = null,
             bool isTracking = true
             );
 
-        void Add(T entity);
+        Task Add(T entity);
 
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);
 
-        void Save();
+        Task Save();
     }
 }
