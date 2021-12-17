@@ -1,4 +1,5 @@
-﻿using BookListMVC.Models;
+﻿using BookList.DataAccess.Repository.IRepository;
+using BookListMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace BookListMVC.api
     {
 
         private readonly ApplicationDbContext _db;
-        public BooksController(ApplicationDbContext db)
+        private readonly IBookRepository _repo;
+        public BooksController(ApplicationDbContext db,IBookRepository bookRepo)
         {
             _db = db;
+            _repo = bookRepo;
         }
 
 
@@ -22,6 +25,13 @@ namespace BookListMVC.api
         public async Task<IActionResult> GetAll()
         {
             return Json(new { data = await _db.Books.ToListAsync() });
+        }
+
+        [HttpGet]
+        [Route("getAll2")]
+        public async Task<IActionResult> GetAll2()
+        {
+            return Json(new { data = await _repo.FindAll()});
         }
 
         [HttpDelete]
