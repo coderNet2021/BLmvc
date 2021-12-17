@@ -23,5 +23,19 @@ namespace BookListMVC.Controllers.api
         {
             return Json(new { data = await _repo.FindAll() });
         }
+
+        [HttpGet]
+        [Route("GetOneById")]
+        public async Task<IActionResult> GetOne(int id)
+        {
+            return Json(new { data = await _repo.FirstOrDefault(u=>u.Id==id) });
+        }
+
+        [HttpGet]
+        [Route("GetOneByName")]
+        public async Task<IActionResult> GetOneName(string name)
+        {
+            return Json(new { data = await _repo.FirstOrDefault(u => u.Name == name) });
+        }
     }
 }
