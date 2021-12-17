@@ -87,5 +87,10 @@ namespace BookList.DataAccess.Repository
         {
            await  _db.SaveChangesAsync();
         }
+
+        public void Update(T entity)
+        {
+             _db.Update(entity);
+        }
     }
 }
