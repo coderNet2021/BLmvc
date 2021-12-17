@@ -37,5 +37,21 @@ namespace BookListMVC.Controllers.api
         {
             return Json(new { data = await _repo.FirstOrDefault(u => u.Name == name) });
         }
+
+        [HttpDelete]
+        [Route("delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var bookFromDb = await _repo.FirstOrDefault(u => u.Id == id);
+            if (bookFromDb == null)
+            {
+                return Json(new { success = false, message = "Error while Deleting" });
+            }
+            _repo.Remove(bookFromDb);
+            //_db.Books.Remove(bookFromDb);
+            await _repo.Save();
+            //await _db.SaveChangesAsync();
+            return Json(new { success = true, message = "Delete successful" });
+        }
     }
 }
